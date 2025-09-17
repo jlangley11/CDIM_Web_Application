@@ -71,7 +71,7 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
         {/* CDIM Flip Cards */}
         <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-6 text-center">CDIM Framework Analysis</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 isolate relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             <FlipCard
               title="Current State"
               type="current"

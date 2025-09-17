@@ -70,10 +70,10 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
   };
 
   return (
-    <div className={`relative h-96 sm:h-80 md:h-96 [perspective:1000px] ${className}`}>
+    <div className={`relative h-96 sm:h-80 md:h-96 [perspective:1000px] ${className} ${isFlipped ? 'z-[100]' : 'z-0'}`}>
       <div 
         className={`absolute inset-0 [transform-style:preserve-3d] transition-transform duration-700 cursor-pointer group [transform-origin:center] ${
-          isFlipped ? 'z-50 [transform:rotateY(180deg)]' : 'z-10'
+          isFlipped ? '[transform:rotateY(180deg)]' : ''
         }`}
         onClick={handleFlip}
         data-testid={`card-${type.toLowerCase()}`}
