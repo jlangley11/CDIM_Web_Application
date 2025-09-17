@@ -70,11 +70,11 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
   };
 
   return (
-    <div className={`perspective-1000 ${className}`}>
+    <div className={`perspective-1000 ${className} ${isFlipped ? 'z-50' : 'z-10'}`}>
       <div 
-        className={`relative w-full h-96 sm:h-80 md:h-96 transition-transform duration-600 transform-style-preserve-3d cursor-pointer ${
+        className={`relative w-full h-96 sm:h-80 md:h-96 transition-all duration-600 transform-style-preserve-3d cursor-pointer group ${
           isFlipped ? 'rotate-y-180' : ''
-        }`}
+        } hover:scale-105 hover:shadow-lg`}
         onClick={handleFlip}
         data-testid={`card-${type.toLowerCase()}`}
         style={{
@@ -83,11 +83,16 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
         }}
       >
         {/* Front Side - Confirmed Items */}
-        <Card className={`absolute inset-0 w-full h-full backface-hidden ${config.bgColor} ${config.borderColor} border-2 hover-elevate`}>
+        <Card className={`absolute inset-0 w-full h-full backface-hidden ${config.bgColor} ${config.borderColor} border-2 hover-elevate transition-all duration-300`}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-              <div className={`w-3 h-3 rounded-full ${config.color}`} />
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                {title}
+                <div className="text-xs opacity-60 group-hover:opacity-100 transition-opacity">
+                  ↻ Click to flip
+                </div>
+              </CardTitle>
+              <div className={`w-3 h-3 rounded-full ${config.color} group-hover:animate-pulse`} />
             </div>
             <Badge variant="secondary" className="w-fit text-xs">
               Confirmed Items ({data.confirmed.length})
@@ -137,13 +142,18 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
 
         {/* Back Side - Gaps and Next Questions */}
         <Card 
-          className={`absolute inset-0 w-full h-full backface-hidden ${config.bgColor} ${config.borderColor} border-2 hover-elevate`}
+          className={`absolute inset-0 w-full h-full backface-hidden ${config.bgColor} ${config.borderColor} border-2 hover-elevate transition-all duration-300`}
           style={{ transform: 'rotateY(180deg)' }}
         >
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-              <div className={`w-3 h-3 rounded-full ${config.color}`} />
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                {title}
+                <div className="text-xs opacity-60 group-hover:opacity-100 transition-opacity">
+                  ↻ Click to flip back
+                </div>
+              </CardTitle>
+              <div className={`w-3 h-3 rounded-full ${config.color} group-hover:animate-pulse`} />
             </div>
             <Badge variant="outline" className="w-fit text-xs border-red-200 text-red-700">
               Gaps & Questions ({data.gaps_next_call.length})
