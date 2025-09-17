@@ -1,0 +1,161 @@
+# Azure DCSA CDIM Evaluation Tool - Development Brief
+
+## Project Overview
+Build a React web application for Microsoft Azure DCSA (Data, Cloud, Security, and AI) sellers to evaluate customer call transcripts against the 2Win CDIM framework. The app receives AI-processed transcript data in JSON format and presents it through an interactive, flip-card interface.
+
+## Technical Requirements
+
+### Framework & Dependencies
+- **React 18+** with functional components and hooks
+- **Tailwind CSS** for styling
+- **Lucide React** for icons
+- **JSON Schema validation** for input data
+
+### Core Features
+
+#### 1. JSON Data Processing
+- Accept and validate input against the provided JSON schema
+- Handle the complete CDIM evaluation structure including:
+  - Metadata (version, timestamp)
+  - Executive summary
+  - CDIM sections (current, desired, impact, metrics)
+  - Gaps and risks analysis
+  - Impact statement with TBD notes
+  - Recommendations (follow-ups and proof plan)
+  - Scorecard with weighted scoring
+
+#### 2. Interactive Flip Cards
+- **4 main CDIM cards**: Current State, Desired State, Impact, Metrics
+- **Front side**: Shows confirmed information summary
+- **Back side**: Shows gaps and next questions for follow-up
+- **Color coding**: Blue (current), Green (desired), Purple (impact), Orange (metrics)
+- **Smooth CSS transitions** for card flipping animation
+- **Click to flip** functionality
+
+#### 3. Dynamic Scorecard
+- **Overall score** prominently displayed in center
+- **Individual scores** for coverage, depth, quantification, impact linkage
+- **Color-coded scores**: Green (80+), Yellow (60-79), Red (<60)
+- **Weighted scoring** display showing component weights
+- **Score explanations** accessible via hover or click
+
+#### 4. Data Visualization
+- Clean, minimalistic design with subtle shadows and borders
+- **Executive summary** section with professional formatting
+- **Impact statement** highlighting with conditional TBD notes
+- **Recommendations section** split into follow-ups and proof plan
+- **Expandable sections** for detailed information
+
+## UI/UX Requirements
+
+### Design System
+- **Color Palette**: 
+  - Primary: Blue (#3B82F6)
+  - Success: Green (#10B981)
+  - Warning: Yellow/Amber (#F59E0B)
+  - Error: Red (#EF4444)
+  - Background: Light gray (#F9FAFB)
+- **Typography**: Clean, readable fonts with clear hierarchy
+- **Spacing**: Consistent 4px grid system
+- **Borders**: Subtle, rounded corners (8px radius)
+
+### Responsiveness
+- **Mobile-first** design approach
+- **Breakpoints**: sm (640px), md (768px), lg (1024px), xl (1280px)
+- **Grid layouts**: Responsive grid that stacks on mobile
+- **Touch-friendly**: Adequate button sizes and touch targets
+
+### Accessibility
+- **ARIA labels** for interactive elements
+- **Keyboard navigation** support
+- **Color contrast** meeting WCAG AA standards
+- **Screen reader** friendly structure
+
+## Data Structure (JSON Schema)
+The application must handle the complete CDIM evaluation schema including:
+
+```typescript
+interface CDIMEvaluation {
+  metadata: {
+    version: string;
+    generated_at: string;
+  };
+  executive_summary: string;
+  cdim: {
+    current: SectionWithGaps;
+    desired: SectionWithGaps;
+    impact: SectionWithGaps;
+    metrics: MetricsSection;
+  };
+  gaps_and_risks: string;
+  impact_statement: {
+    sentence: string;
+    tbd_note?: string;
+  };
+  recommendations: {
+    follow_ups: FollowUpQuestion[];
+    proof_plan: ProofPlanItem[];
+  };
+  scorecard: Scorecard;
+}
+```
+
+## Key Interactions
+
+### 1. Card Flipping
+- Click any CDIM card to flip between confirmed items and gaps
+- Smooth 3D CSS transform animation
+- Visual feedback on hover
+
+### 2. Score Details
+- Hover over score components for detailed explanations
+- Click for expanded scoring methodology
+
+### 3. Expandable Sections
+- Collapsible sections for detailed recommendations
+- Progressive disclosure for complex information
+
+## File Structure
+```
+src/
+├── components/
+│   ├── CDIMEvaluator.jsx      # Main component
+│   ├── FlipCard.jsx           # Reusable flip card component
+│   ├── Scorecard.jsx          # Scoring visualization
+│   ├── ExecutiveSummary.jsx   # Summary display
+│   └── Recommendations.jsx    # Recommendations section
+├── utils/
+│   ├── scoreUtils.js          # Score calculation utilities
+│   └── validation.js          # JSON schema validation
+├── styles/
+│   └── globals.css            # Global Tailwind styles
+└── data/
+    └── sampleData.js          # Demo data for testing
+```
+
+## Performance Considerations
+- **Component memoization** for expensive re-renders
+- **Lazy loading** for large datasets
+- **Optimized animations** using CSS transforms
+- **Efficient state management** with React hooks
+
+## Testing Requirements
+- **Unit tests** for utility functions
+- **Component tests** for UI interactions
+- **Integration tests** for data flow
+- **Accessibility testing** with axe-core
+
+## Deployment
+- **Static build** for easy deployment
+- **Environment variables** for configuration
+- **Error boundaries** for graceful error handling
+- **Loading states** for data processing
+
+## Success Metrics
+- **Fast load times** (<2 seconds)
+- **Smooth animations** (60fps)
+- **Mobile responsive** design
+- **Accessible** to users with disabilities
+- **Intuitive** user experience requiring minimal training
+
+This application should serve as a professional tool for Microsoft sales teams to quickly analyze and act on customer conversation insights, driving better sales outcomes through structured CDIM framework evaluation.
