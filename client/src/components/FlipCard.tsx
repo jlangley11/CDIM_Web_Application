@@ -70,17 +70,16 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
   };
 
   return (
-    <div className={`relative h-96 sm:h-80 md:h-96 [perspective:1000px] ${className} ${isFlipped ? 'z-[100]' : 'z-0'}`}>
-      <div 
-        className={`absolute inset-0 [transform-style:preserve-3d] transition-transform duration-700 cursor-pointer group [transform-origin:center] ${
-          isFlipped ? '[transform:rotateY(180deg)]' : ''
-        }`}
-        onClick={handleFlip}
-        data-testid={`card-${type.toLowerCase()}`}
-        style={{ willChange: 'transform' }}
-      >
-        {/* Front Side - Confirmed Items */}
-        <Card className={`absolute inset-0 w-full h-full [backface-visibility:hidden] ${config.bgColor} ${config.borderColor} border-2 hover-elevate`}>
+    <div 
+      className={`relative h-96 sm:h-80 md:h-96 ${className} ${isFlipped ? 'z-10' : 'z-0'}`}
+      onClick={handleFlip}
+      data-testid={`card-${type.toLowerCase()}`}
+    >
+      {/* Front Side - Confirmed Items */}
+      <div className={`absolute inset-0 transition-all duration-300 ${
+        isFlipped ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}>
+        <Card className={`w-full h-full ${config.bgColor} ${config.borderColor} border-2 cursor-pointer`}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -136,11 +135,13 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
             </div>
           </CardContent>
         </Card>
+      </div>
 
-        {/* Back Side - Gaps and Next Questions */}
-        <Card 
-          className={`absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] ${config.bgColor} ${config.borderColor} border-2 hover-elevate`}
-        >
+      {/* Back Side - Gaps and Next Questions */}
+      <div className={`absolute inset-0 transition-all duration-300 ${
+        isFlipped ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}>
+        <Card className={`w-full h-full ${config.bgColor} ${config.borderColor} border-2 cursor-pointer`}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
