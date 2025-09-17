@@ -71,15 +71,22 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
 
   return (
     <div 
-      className={`relative h-96 sm:h-80 md:h-96 ${className} ${isFlipped ? 'z-10' : 'z-0'}`}
-      onClick={handleFlip}
+      className={`relative h-96 sm:h-80 md:h-96 ${className} ${isFlipped ? 'z-50' : ''}`}
+      style={{ perspective: '1000px' }}
       data-testid={`card-${type.toLowerCase()}`}
     >
-      {/* Front Side - Confirmed Items */}
-      <div className={`absolute inset-0 transition-all duration-300 ${
-        isFlipped ? 'opacity-0 pointer-events-none' : 'opacity-100'
-      }`}>
-        <Card className={`w-full h-full ${config.bgColor} ${config.borderColor} border-2 cursor-pointer`}>
+      <div 
+        className={`relative w-full h-full cursor-pointer`}
+        style={{
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.6s',
+          transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+        }}
+        onClick={handleFlip}
+      >
+        {/* Front Side - Confirmed Items */}
+        <Card className={`absolute inset-0 w-full h-full ${config.bgColor} ${config.borderColor} border-2`} 
+          style={{ backfaceVisibility: 'hidden' }}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -135,13 +142,13 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
             </div>
           </CardContent>
         </Card>
-      </div>
 
-      {/* Back Side - Gaps and Next Questions */}
-      <div className={`absolute inset-0 transition-all duration-300 ${
-        isFlipped ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}>
-        <Card className={`w-full h-full ${config.bgColor} ${config.borderColor} border-2 cursor-pointer`}>
+        {/* Back Side - Gaps and Next Questions */}
+        <Card className={`absolute inset-0 w-full h-full ${config.bgColor} ${config.borderColor} border-2`}
+          style={{ 
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)'
+          }}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
