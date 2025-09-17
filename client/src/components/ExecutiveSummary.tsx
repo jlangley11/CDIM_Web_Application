@@ -32,7 +32,7 @@ export default function ExecutiveSummary({ summary, metadata, className = "" }: 
           </CardTitle>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="text-xs">
-              v{metadata.version}
+              CDIM
             </Badge>
           </div>
         </div>

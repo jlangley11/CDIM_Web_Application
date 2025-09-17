@@ -53,7 +53,7 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
             CDIM Evaluation Results
           </h1>
           <p className="text-lg text-muted-foreground">
-            {evaluation.meta.framework} for {evaluation.meta.audience}
+            CDIM for {evaluation.meta.audience}
           </p>
         </div>
 
