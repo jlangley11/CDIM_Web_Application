@@ -28,7 +28,7 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
               Azure DCSA CDIM Evaluation Tool
             </h1>
             <p className="text-lg text-muted-foreground">
-              Analyze customer call transcripts against the 2Win CDIM framework
+              Analyze customer call transcripts against the CDIM framework
             </p>
           </div>
           
