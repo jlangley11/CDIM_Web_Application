@@ -1,0 +1,98 @@
+{  
+  "meta": {  
+    "framework": "2Win CDIM",  
+    "audience": "Microsoft DCSA Azure",  
+    "weights": { "coverage": 0.30, "depth": 0.30, "quantification": 0.25, "impact_linkage": 0.15 }  
+  },  
+  "executive_summary": "Garrett Brands is progressing on a Fabric medallion architecture and plans to use Fabric Data Agents to let users chat with trusted data inside M365 Copilot. Strengths include clear intent to right-size agents by business process, a security-first mindset (Entra ID groups, RBAC, and views), and phased pilots with prompt guidance. Weaknesses are the absence of defined success metrics, unclear final security pattern (workspace versus RLS versus views and CMK), and reliance on preview features. The most material gap is a lack of measurable pilot objectives across finance and HR. The single most important next step is to select the first pilot process and lock baseline, target, timeframe, and owner for success measurement.",  
+  "cdim": {  
+    "current": {  
+      "confirmed": [  
+        "Garrett Brands is building a Microsoft Fabric medallion architecture with dimensional models for POS sources such as Aloha and Revel, including a conformed warehouse layer.",  
+        "BigCommerce data is planned for later ingestion, and replicated accounting tables are available to support reconciliations with systems such as NetSuite.",  
+        "The team intends to use Fabric Data Agents for simple “chat with your data” use cases and to surface them in the Microsoft 365 Copilot app and Teams.",  
+        "Security is a priority, with a preference for managing access through Entra ID groups and Fabric RBAC, complemented by SQL views and selective use of row or column security.",  
+        "Business user AI maturity is early, so the rollout will start with small pilots, embedded agent tiles next to existing dashboards, and example prompts to guide usage.",  
+        "They want to avoid third-party LLM dependencies, keep solutions inside Fabric and Copilot, and have raised follow-ups on context window limits and end-user publishing patterns."  
+      ],  
+      "gaps_next_call": [  
+        "To finalize the security design, which specific fields contain PII or sensitive data that require customer-managed keys and column-level encryption, and where is row-level security versus workspace separation truly necessary?",  
+        "What Fabric capacity SKU, regions, and current workspaces are in place today, and which semantic models or views are production-ready to ground the first agent?",  
+        "Which Entra ID or Microsoft Teams groups will map to each agent, and who will administer RBAC assignments and lifecycle management for those groups?",  
+        "How are NetSuite and BigCommerce presently integrated into Fabric in terms of refresh frequency, latency, and data quality, and which authoritative views are safe to expose to agents?",  
+        "What is the current volume of ad hoc data questions to finance and operations and the typical time-to-answer, and can we extract a three-month baseline for the pilot?",  
+        "Are there governance constraints on using Fabric Data Agents while in preview, and do we need a formal exception before any production exposure?"  
+      ]  
+    },  
+    "desired": {  
+      "confirmed": [  
+        "End users should converse with data via the Microsoft 365 Copilot app and Teams without seeing the agent’s build context or configuration panes.",  
+        "Multiple right-sized agents will be published by business process or department, including an executive agent with broader scope and departmental agents with tighter context.",  
+        "Access control should rely primarily on Entra ID group membership and workspace-level scoping, with SQL views used to prefilter and simplify context where possible.",  
+        "Agents should be embedded alongside familiar dashboards and seeded with example prompts to accelerate adoption and teach effective prompting.",  
+        "Models will precompute measures so the agent handles natural language questions rather than complex calculations, aligning with Fabric best practices.",  
+        "In later phases, observability and guardrails should be added through Azure API Management’s AI Gateway, with optional expansion to Microsoft AI Foundry for advanced scenarios."  
+      ],  
+      "gaps_next_call": [  
+        "Which business process and department will own the first pilot agent, and what precise question set must it answer on day one?",  
+        "Which datasets, tables, or views will define the pilot agent’s grounding scope, and what naming and versioning conventions will govern updates?",  
+        "What is the desired pilot user journey for enrollment, training, validation, and feedback, and what rollout cadence will we follow by team?",  
+        "Which publishing endpoints are required (Teams channel, Microsoft 365 Copilot app, or embedded workspace), and who approves each publishing action?",  
+        "What is the minimum viable scope for the executive agent, and which cross-regional P&L or commerce views must it include at launch?",  
+        "What deprecation and change-control policy will prevent agent sprawl and ensure a managed agent catalog over time?"  
+      ]  
+    },  
+    "impact": {  
+      "confirmed": [  
+        "Business users will self-serve routine data answers, reducing ad hoc requests to data teams and accelerating operational decisions.",  
+        "Finance will perform reconciliations faster and more accurately once POS and commerce data are exposed through scoped, executive-ready views.",  
+        "HR onboarding and offboarding can be streamlined by invoking deterministic workflows with human-in-the-loop controls through an agent interface.",  
+        "Security posture improves by constraining each agent to approved datasets and honoring Fabric RBAC, views, and any row or column-level security.",  
+        "Observability via Azure API Management can enable access segregation, usage analytics, and optional chargeback or showback as agents scale."  
+      ],  
+      "gaps_next_call": [  
+        "Which business KPIs will be impacted first (for example, time-to-answer, reconciliation cycle time, and onboarding lead time), and what target deltas are expected?",  
+        "What compliance obligations apply to these agents (for example, PII, PCI, or regional data residency), and who is accountable for approvals?",  
+        "What adoption threshold will define pilot success, and how will user satisfaction and trust be measured and reported?",  
+        "What error or hallucination tolerance is acceptable, and what human validation steps are mandatory before critical actions are taken?",  
+        "Who are the executive sponsors and process owners for finance, HR, and commerce agents, and what decision rights will they hold during the pilot?"  
+      ]  
+    },  
+    "metrics": {  
+      "confirmed": [],  
+      "gaps_next_call": [  
+        "For ad hoc data requests, what is the current median time-to-answer and monthly volume, what target reduction do we seek, by when, and who owns this metric?",  
+        "For finance reconciliations, what are the current cycle time and match rate across POS, BigCommerce, and NetSuite, what target improvement is expected, within what timeframe, and who is the process owner?",  
+        "For HR onboarding, what is the current time from ticket creation to account readiness, what reduction is targeted, over what period, and which HRIT leader will own the result?",  
+        "For agent adoption, how many eligible users are in scope, what weekly active user rate and retention are targeted, by when, and who will track it?",  
+        "For security, what is the current quarterly count of PII access exceptions or incidents, what reduction is targeted, by when, and who is the data protection owner?",  
+        "For cost governance, what Fabric and AI consumption baselines exist today, what budget or per-department quota will apply, over which fiscal period, and who approves spend?"  
+      ]  
+    }  
+  },  
+  "gaps_and_risks": "Key risks include an undefined security architecture (workspace versus RLS versus views and CMK), no quantified success metrics, and reliance on a preview feature for Fabric Data Agents. Agent sprawl is a material governance risk without naming, versioning, and deprecation policy. Adoption could stall if prompt guidance and embedded examples are not provided, and trust may erode without human validation for sensitive workflows. Unknown context window limits and inconsistent Copilot quality perceptions heighten expectations risk. Finally, PII protection and regional compliance must be clarified before any broad rollout.",  
+  "impact_statement": "If we deploy right-sized Fabric Data Agents grounded in conformed views and secured via Entra ID RBAC and CMK, then business users will self-serve accurate answers and finance and HR will shorten reconciliations and onboarding, measured by reducing median time-to-answer from TBD to TBD and cutting reconciliation cycle time by TBD% within TBD timeframe, owned by the VP of Finance and the HRIT Director.",  
+  "recommendations": {  
+    "follow_ups": [  
+      "Select the first pilot process and department (finance reconciliation or HR onboarding) and appoint a business owner to ensure decisions and adoption.",  
+      "Run a security design workshop to decide where to use workspace separation, SQL views, row or column security, and customer-managed keys, balancing protection with maintainability.",  
+      "Audit model readiness to confirm authoritative views, precomputed measures, refresh cadence, and data quality sufficient for accurate agent responses.",  
+      "Build two scoped SQL views (for the selected process and for an executive summary), create corresponding Fabric Data Agents, and publish them to the Microsoft 365 Copilot app restricted by Entra ID groups.",  
+      "Create an adoption kit with example prompts, prompt guardrails, and short videos embedded alongside existing dashboards to accelerate user proficiency and reduce hallucinations.",  
+      "Define agent governance covering naming, versioning, publishing approvals, telemetry requirements, and deprecation to prevent agent sprawl and ensure lifecycle discipline.",  
+      "Prepare a licensing and cost plan that confirms Microsoft 365 Copilot coverage for Graph access, outlines Fabric capacity usage, and documents consumption tracking as agents scale."  
+    ],  
+    "proof_plan": [  
+      "Finance Reconciliation Agent: Ground on conformed POS and commerce views to answer reconciliation questions, proving a reduction in reconciliation cycle time from baseline to target within 90 days.",  
+      "HR Onboarding Agent: Invoke deterministic onboarding workflows with human-in-the-loop approvals, proving a reduction in average time from ticket to account readiness within a defined pilot period.",  
+      "Executive Commerce Agent: Aggregate scoped views for cross-regional sales and margin questions, proving faster time-to-insight and adoption measured by weekly active users and satisfaction."  
+    ]  
+  },  
+  "scorecard": {  
+    "coverage": 80,  
+    "depth": 70,  
+    "quantification": 20,  
+    "impact_linkage": 65,  
+    "overall": 60  
+  }  
+}

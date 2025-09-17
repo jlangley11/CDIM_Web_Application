@@ -53,7 +53,7 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
             CDIM Evaluation Results
           </h1>
           <p className="text-lg text-muted-foreground">
-            Generated {new Date(evaluation.metadata.generated_at).toLocaleDateString()}
+            {evaluation.meta.framework} for {evaluation.meta.audience}
           </p>
         </div>
 
@@ -61,7 +61,10 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
         <div className="mb-8">
           <ExecutiveSummary 
             summary={evaluation.executive_summary}
-            metadata={evaluation.metadata}
+            metadata={{
+              version: evaluation.meta.framework,
+              generated_at: new Date().toISOString()
+            }}
           />
         </div>
 

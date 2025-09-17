@@ -32,11 +32,20 @@ export default function FileUpload({ onEvaluationLoaded, className = "" }: FileU
       console.log('CDIM evaluation loaded successfully:', validatedData);
     } catch (error) {
       setUploadStatus('error');
-      setErrorMessage(
-        error instanceof Error 
-          ? `Invalid file format: ${error.message}`
-          : 'Failed to process file. Please ensure it contains valid CDIM evaluation data.'
-      );
+      if (error instanceof Error && error.message.includes('issues')) {
+        // This is a Zod validation error
+        setErrorMessage(
+          'Invalid JSON structure. The file must contain a complete CDIM evaluation with metadata, cdim sections (current, desired, impact, metrics), scorecard, and recommendations. Please check the file format matches the expected schema.'
+        );
+      } else if (error instanceof SyntaxError) {
+        setErrorMessage('Invalid JSON file. Please ensure the file contains valid JSON data.');
+      } else {
+        setErrorMessage(
+          error instanceof Error 
+            ? `File processing error: ${error.message}`
+            : 'Failed to process file. Please ensure it contains valid CDIM evaluation data.'
+        );
+      }
       console.error('File processing error:', error);
     }
   }, [onEvaluationLoaded]);
@@ -182,11 +191,33 @@ export default function FileUpload({ onEvaluationLoaded, className = "" }: FileU
           </div>
           
           <div className="mt-6 pt-4 border-t border-border/50">
-            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-2">
               <Badge variant="outline" className="text-xs">JSON</Badge>
               <span>•</span>
               <span>CDIM Evaluation Schema v2.1+</span>
             </div>
+            <details className="text-xs text-muted-foreground">
+              <summary className="cursor-pointer hover:text-foreground transition-colors">
+                Expected JSON structure
+              </summary>
+              <div className="mt-2 p-2 bg-muted/50 rounded text-left">
+                <pre className="whitespace-pre-wrap font-mono text-xs">
+{`{
+  "metadata": { "version": "2.1.0", "generated_at": "..." },
+  "executive_summary": "...",
+  "cdim": {
+    "current": { "confirmed_items": [], "gaps": [], "next_questions": [] },
+    "desired": { "confirmed_items": [], "gaps": [], "next_questions": [] },
+    "impact": { "confirmed_items": [], "gaps": [], "next_questions": [] },
+    "metrics": { "confirmed_items": [], "gaps": [], "next_questions": [], "quantified_metrics": [] }
+  },
+  "scorecard": { "overall_score": 0, "coverage_score": 0, ... },
+  "recommendations": { "follow_ups": [], "proof_plan": [] },
+  ...
+}`}
+                </pre>
+              </div>
+            </details>
           </div>
         </div>
       </CardContent>

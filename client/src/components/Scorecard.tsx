@@ -31,29 +31,25 @@ export default function Scorecard({ scorecard, className = "" }: ScorecardProps)
   const components = [
     {
       name: "Coverage",
-      score: scorecard.coverage_score,
-      weight: scorecard.weights.coverage,
+      score: scorecard.coverage,
       icon: Target,
       description: "Completeness of information gathered"
     },
     {
       name: "Depth", 
-      score: scorecard.depth_score,
-      weight: scorecard.weights.depth,
+      score: scorecard.depth,
       icon: BarChart3,
       description: "Level of detail and specificity"
     },
     {
       name: "Quantification",
-      score: scorecard.quantification_score, 
-      weight: scorecard.weights.quantification,
+      score: scorecard.quantification,
       icon: TrendingUp,
       description: "Measurable metrics and data points"
     },
     {
       name: "Impact Linkage",
-      score: scorecard.impact_linkage_score,
-      weight: scorecard.weights.impact_linkage,
+      score: scorecard.impact_linkage,
       icon: Link,
       description: "Connection between problems and business impact"
     }
@@ -65,8 +61,8 @@ export default function Scorecard({ scorecard, className = "" }: ScorecardProps)
         <CardTitle className="text-2xl font-bold">CDIM Evaluation Score</CardTitle>
         <div className="flex items-center justify-center mt-4">
           <div className="relative">
-            <div className={`text-6xl font-bold ${getScoreColor(scorecard.overall_score)}`}>
-              {scorecard.overall_score}
+            <div className={`text-6xl font-bold ${getScoreColor(scorecard.overall)}`}>
+              {scorecard.overall}
             </div>
             <div className="text-sm text-muted-foreground text-center mt-1">
               Overall Score
@@ -74,11 +70,11 @@ export default function Scorecard({ scorecard, className = "" }: ScorecardProps)
           </div>
         </div>
         <Badge 
-          variant={getScoreBadgeVariant(scorecard.overall_score)}
+          variant={getScoreBadgeVariant(scorecard.overall)}
           className="w-fit mx-auto mt-2"
         >
-          {scorecard.overall_score >= 80 ? "Excellent" : 
-           scorecard.overall_score >= 60 ? "Good" : "Needs Improvement"}
+          {scorecard.overall >= 80 ? "Excellent" : 
+           scorecard.overall >= 60 ? "Good" : "Needs Improvement"}
         </Badge>
       </CardHeader>
       
@@ -102,9 +98,6 @@ export default function Scorecard({ scorecard, className = "" }: ScorecardProps)
                     <span className={`font-bold ${getScoreColor(component.score)}`}>
                       {component.score}
                     </span>
-                    <Badge variant="outline" className="text-xs">
-                      {Math.round(component.weight * 100)}%
-                    </Badge>
                   </div>
                 </div>
                 

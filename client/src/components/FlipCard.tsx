@@ -64,12 +64,12 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
               <div className={`w-3 h-3 rounded-full ${config.color}`} />
             </div>
             <Badge variant="secondary" className="w-fit text-xs">
-              Confirmed Items ({data.confirmed_items.length})
+              Confirmed Items ({data.confirmed.length})
             </Badge>
           </CardHeader>
           <CardContent className="space-y-3">
-            {data.confirmed_items.length > 0 ? (
-              data.confirmed_items.map((item, index) => (
+            {data.confirmed.length > 0 ? (
+              data.confirmed.map((item, index) => (
                 <div key={index} className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                   <span className="text-sm text-foreground/90">{item}</span>
@@ -98,35 +98,23 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
               <div className={`w-3 h-3 rounded-full ${config.color}`} />
             </div>
             <Badge variant="outline" className="w-fit text-xs border-red-200 text-red-700">
-              Gaps & Questions ({data.gaps.length + data.next_questions.length})
+              Gaps & Questions ({data.gaps_next_call.length})
             </Badge>
           </CardHeader>
           <CardContent className="space-y-4">
-            {data.gaps.length > 0 && (
+            {data.gaps_next_call.length > 0 && (
               <div>
-                <h4 className="text-sm font-medium mb-2 text-red-700">Gaps Identified</h4>
-                {data.gaps.map((gap, index) => (
-                  <div key={index} className="flex items-start gap-2 mb-2">
-                    <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-foreground/90">{gap}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-            
-            {data.next_questions.length > 0 && (
-              <div>
-                <h4 className="text-sm font-medium mb-2 text-blue-700">Next Questions</h4>
-                {data.next_questions.map((question, index) => (
+                <h4 className="text-sm font-medium mb-2 text-blue-700">Gaps & Next Call Items</h4>
+                {data.gaps_next_call.map((item, index) => (
                   <div key={index} className="flex items-start gap-2 mb-2">
                     <HelpCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-foreground/90">{question}</span>
+                    <span className="text-sm text-foreground/90">{item}</span>
                   </div>
                 ))}
               </div>
             )}
             
-            {data.gaps.length === 0 && data.next_questions.length === 0 && (
+            {data.gaps_next_call.length === 0 && (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <CheckCircle className="w-4 h-4" />
                 <span className="text-sm">No gaps or questions identified</span>
