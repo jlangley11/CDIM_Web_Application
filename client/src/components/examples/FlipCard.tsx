@@ -1,18 +1,13 @@
 import FlipCard from '../FlipCard';
 
 const mockCurrentStateData = {
-  confirmed_items: [
+  confirmed: [
     "Currently using legacy on-premises infrastructure",
     "Microsoft 365 partially deployed across organization", 
     "Basic security measures in place with Azure AD",
     "Limited cloud adoption in development teams"
   ],
-  gaps: [
-    "No comprehensive cloud migration strategy",
-    "Inconsistent security policies across departments",
-    "Limited visibility into current infrastructure costs"
-  ],
-  next_questions: [
+  gaps_next_call: [
     "What is the current monthly infrastructure spend?",
     "Which applications are mission-critical for migration?",
     "What compliance requirements must be maintained?"
@@ -31,16 +26,12 @@ export default function FlipCardExample() {
         title="Desired State"
         type="desired"
         data={{
-          confirmed_items: [
+          confirmed: [
             "100% cloud-first infrastructure on Azure",
             "Enhanced security with Zero Trust model",
             "AI-powered analytics and insights"
           ],
-          gaps: [
-            "Timeline for migration not defined",
-            "Training requirements unclear"
-          ],
-          next_questions: [
+          gaps_next_call: [
             "What is the target timeline for migration?",
             "What training budget is available?"
           ]

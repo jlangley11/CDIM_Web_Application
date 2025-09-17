@@ -1,17 +1,11 @@
 import Scorecard from '../Scorecard';
 
 const mockScorecard = {
-  overall_score: 78,
-  coverage_score: 85,
-  depth_score: 72,
-  quantification_score: 65,
-  impact_linkage_score: 90,
-  weights: {
-    coverage: 0.25,
-    depth: 0.25,
-    quantification: 0.25,
-    impact_linkage: 0.25,
-  }
+  overall: 78,
+  coverage: 85,
+  depth: 72,
+  quantification: 65,
+  impact_linkage: 90
 };
 
 export default function ScorecardExample() {

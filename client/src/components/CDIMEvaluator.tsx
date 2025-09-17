@@ -103,7 +103,10 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
         {/* Impact Statement and Risks */}
         <div className="mb-8">
           <ImpactStatement 
-            impactStatement={evaluation.impact_statement}
+            impactStatement={{
+              sentence: evaluation.impact_statement,
+              tbd_note: undefined
+            }}
             gapsAndRisks={evaluation.gaps_and_risks}
           />
         </div>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, AlertCircle, HelpCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, AlertCircle, HelpCircle, RotateCcw, Eye, EyeOff } from "lucide-react";
 import { SectionWithGaps, MetricsSection } from "@shared/schema";
 
 interface FlipCardProps {
@@ -36,6 +37,8 @@ const typeConfig = {
 
 export default function FlipCard({ title, type, data, className = "" }: FlipCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [expandedConfirmed, setExpandedConfirmed] = useState<number[]>([]);
+  const [expandedGaps, setExpandedGaps] = useState<number[]>([]);
   const config = typeConfig[type];
 
   const handleFlip = () => {
@@ -43,10 +46,33 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
     console.log(`${title} card flipped to ${!isFlipped ? 'gaps' : 'confirmed'} side`);
   };
 
+  const toggleExpandConfirmed = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedConfirmed(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+  };
+
+  const toggleExpandGaps = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedGaps(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+  };
+
+  const truncateText = (text: string, maxLength: number = 150) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + "...";
+  };
+
   return (
     <div className={`perspective-1000 ${className}`}>
       <div 
-        className={`relative w-full h-80 transition-transform duration-600 transform-style-preserve-3d cursor-pointer ${
+        className={`relative w-full h-96 sm:h-80 md:h-96 transition-transform duration-600 transform-style-preserve-3d cursor-pointer ${
           isFlipped ? 'rotate-y-180' : ''
         }`}
         onClick={handleFlip}
@@ -67,22 +93,44 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
               Confirmed Items ({data.confirmed.length})
             </Badge>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-3 max-h-64 overflow-y-auto">
             {data.confirmed.length > 0 ? (
-              data.confirmed.map((item, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-foreground/90">{item}</span>
-                </div>
-              ))
+              data.confirmed.map((item, index) => {
+                const isExpanded = expandedConfirmed.includes(index);
+                const shouldTruncate = item.length > 150;
+                const displayText = shouldTruncate && !isExpanded ? truncateText(item) : item;
+                
+                return (
+                  <div key={index} className="group">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1">
+                        <span className="text-sm text-foreground/90 leading-relaxed">
+                          {displayText}
+                        </span>
+                        {shouldTruncate && (
+                          <button
+                            onClick={(e) => toggleExpandConfirmed(index, e)}
+                            className="ml-1 text-xs text-primary hover:text-primary/80 font-medium"
+                            data-testid={`expand-confirmed-${index}`}
+                          >
+                            {isExpanded ? 'Show less' : 'Show more'}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
             ) : (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <AlertCircle className="w-4 h-4" />
                 <span className="text-sm">No confirmed items yet</span>
               </div>
             )}
-            <div className="text-xs text-muted-foreground mt-4 pt-2 border-t border-border/50">
-              Click to view gaps and next questions
+            <div className="text-xs text-muted-foreground mt-4 pt-2 border-t border-border/50 flex items-center gap-2">
+              <RotateCcw className="w-3 h-3" />
+              Click card to view gaps and next questions
             </div>
           </CardContent>
         </Card>
@@ -101,16 +149,40 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
               Gaps & Questions ({data.gaps_next_call.length})
             </Badge>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 max-h-64 overflow-y-auto">
             {data.gaps_next_call.length > 0 && (
               <div>
-                <h4 className="text-sm font-medium mb-2 text-blue-700">Gaps & Next Call Items</h4>
-                {data.gaps_next_call.map((item, index) => (
-                  <div key={index} className="flex items-start gap-2 mb-2">
-                    <HelpCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-foreground/90">{item}</span>
-                  </div>
-                ))}
+                <h4 className="text-sm font-medium mb-3 text-blue-700 flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  Gaps & Next Call Items
+                </h4>
+                {data.gaps_next_call.map((item, index) => {
+                  const isExpanded = expandedGaps.includes(index);
+                  const shouldTruncate = item.length > 150;
+                  const displayText = shouldTruncate && !isExpanded ? truncateText(item) : item;
+                  
+                  return (
+                    <div key={index} className="group mb-3">
+                      <div className="flex items-start gap-2">
+                        <AlertCircle className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1">
+                          <span className="text-sm text-foreground/90 leading-relaxed">
+                            {displayText}
+                          </span>
+                          {shouldTruncate && (
+                            <button
+                              onClick={(e) => toggleExpandGaps(index, e)}
+                              className="ml-1 text-xs text-primary hover:text-primary/80 font-medium"
+                              data-testid={`expand-gaps-${index}`}
+                            >
+                              {isExpanded ? 'Show less' : 'Show more'}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
             
@@ -120,6 +192,11 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
                 <span className="text-sm">No gaps or questions identified</span>
               </div>
             )}
+            
+            <div className="text-xs text-muted-foreground mt-4 pt-2 border-t border-border/50 flex items-center gap-2">
+              <RotateCcw className="w-3 h-3" />
+              Click card to return to confirmed items
+            </div>
           </CardContent>
         </Card>
       </div>
