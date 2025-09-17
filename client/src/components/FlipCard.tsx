@@ -70,20 +70,17 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
   };
 
   return (
-    <div className={`perspective-1000 ${className} ${isFlipped ? 'z-50' : 'z-10'}`}>
+    <div className={`relative [perspective:1000px] ${className} ${isFlipped ? 'z-50' : 'z-10'}`}>
       <div 
-        className={`relative w-full h-96 sm:h-80 md:h-96 transition-all duration-600 transform-style-preserve-3d cursor-pointer group ${
-          isFlipped ? 'rotate-y-180' : ''
-        } hover:scale-105 hover:shadow-lg`}
+        className={`relative h-96 sm:h-80 md:h-96 w-full [transform-style:preserve-3d] transition-transform duration-700 cursor-pointer group [transform-origin:center] ${
+          isFlipped ? '[transform:rotateY(180deg)]' : ''
+        }`}
         onClick={handleFlip}
         data-testid={`card-${type.toLowerCase()}`}
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        }}
+        style={{ willChange: 'transform' }}
       >
         {/* Front Side - Confirmed Items */}
-        <Card className={`absolute inset-0 w-full h-full backface-hidden ${config.bgColor} ${config.borderColor} border-2 hover-elevate transition-all duration-300`}>
+        <Card className={`absolute inset-0 w-full h-full [backface-visibility:hidden] ${config.bgColor} ${config.borderColor} border-2 hover-elevate`}>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -142,8 +139,7 @@ export default function FlipCard({ title, type, data, className = "" }: FlipCard
 
         {/* Back Side - Gaps and Next Questions */}
         <Card 
-          className={`absolute inset-0 w-full h-full backface-hidden ${config.bgColor} ${config.borderColor} border-2 hover-elevate transition-all duration-300`}
-          style={{ transform: 'rotateY(180deg)' }}
+          className={`absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] ${config.bgColor} ${config.borderColor} border-2 hover-elevate`}
         >
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
