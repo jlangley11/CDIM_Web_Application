@@ -11,10 +11,7 @@ export default function Header() {
             <BarChart3 className="w-5 h-5 text-primary-foreground" />
           </div>
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-semibold">Azure DCSA</h1>
-            <Badge variant="outline" className="text-xs font-mono">
-              CDIM Tool
-            </Badge>
+            <h1 className="text-lg font-semibold">Agent2-Echo-Preview</h1>
           </div>
         </div>
         

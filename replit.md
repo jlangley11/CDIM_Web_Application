@@ -1,8 +1,8 @@
-# Azure DCSA CDIM Evaluation Tool
+# Agent2-Echo-Preview
 
 ## Overview
 
-This is a React web application designed for Microsoft Azure DCSA (Data, Cloud, Security, and AI) sellers to evaluate customer call transcripts against the 2Win CDIM framework. The application processes AI-analyzed transcript data and presents it through interactive flip cards, dynamic scorecards, and comprehensive analysis sections. Users can upload JSON files containing structured CDIM evaluations and visualize the results through a modern, enterprise-focused interface that follows Microsoft's design principles.
+This is a React web application designed for evaluating customer call transcripts against the 2Win CDIM framework. The application processes AI-analyzed transcript data and presents it through interactive flip cards, dynamic scorecards, and comprehensive analysis sections. Users can upload JSON files containing structured CDIM evaluations and visualize the results through a modern, enterprise-focused interface that follows Microsoft's design principles.
 
 ## User Preferences
 

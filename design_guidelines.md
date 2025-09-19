@@ -1,4 +1,4 @@
-# Azure DCSA CDIM Evaluation Tool - Design Guidelines
+# Agent2-Echo-Preview - Design Guidelines
 
 ## Design Approach
 **Reference-Based Approach**: Drawing inspiration from Microsoft's Fluent Design System and modern enterprise productivity tools like Linear and Notion, optimized for professional Azure sales environments.
