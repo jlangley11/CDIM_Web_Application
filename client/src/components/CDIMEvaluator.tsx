@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CDIMEvaluation } from "@shared/schema";
 import FlipCard from "./FlipCard";
-import Scorecard from "./Scorecard";
 import ExecutiveSummary from "./ExecutiveSummary";
 import ImpactStatement from "./ImpactStatement";
 import Recommendations from "./Recommendations";
@@ -93,11 +92,6 @@ export default function CDIMEvaluator({ className = "" }: CDIMEvaluatorProps) {
               data={evaluation.cdim.metrics}
             />
           </div>
-        </div>
-
-        {/* Scorecard */}
-        <div className="mb-8">
-          <Scorecard scorecard={evaluation.scorecard} />
         </div>
 
         {/* Impact Statement and Risks */}
